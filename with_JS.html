@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Rock Paper Scissors Game!</h1>
+        </div>
+        <div id="playerButtons">
+            <button class ="choice" id="rock">Rock</button>
+            <button class ="choice" id="paper">Paper</button>
+            <button class ="choice" id="scissors">Scissors</button>
+        </div>
+        <br>
+        <br>
+        <div id="ScoreBoard">
+            <table>
+                <thead>
+                    <th colspan="2">Score Board!</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Player</td>
+                        <td>Computer</td>
+                    </tr>
+                    <tr>
+                        <td id="playerScore">0</td>
+                        <td id="computerScore">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            //Selects a random option for computer
+            function computerPlay() {
+                const computerChoice = Math.floor(Math.random()*3);
+                switch (computerChoice) {
+                    case 0: 
+                        return "rock";
+                        break;
+                    case 1:
+                        return "paper";
+                        break;
+                    case 2:
+                        return "scissors";
+                        break;
+                }
+            };
+
+            //Plays single round and returns outcome
+            function singleRound (e) {
+                const player = e.target.id;
+                const computer = computerPlay();
+                const win = "You win! ";
+                const lose = "You lose! ";
+                const rockScissors = "Rock destorys scissors!";
+                const scissorsPaper = "Scissors cut paper!";
+                const PaperRock = "Paper covers rock!";
+                if (player === computer){
+                    console.log("the game was a tie! You both picked " + player);
+                    return "tie";
+                } else if (player === "rock") {
+                    if (computer === "paper"){
+                        console.log(lose+PaperRock);
+                        return "lose";
+                    } else if (computer === "scissors"){
+                        console.log(win+rockScissors)
+                        return "win";
+                    }
+                } else if (player === "scissors") {
+                    if (computer === "rock"){
+                        console.log(lose+rockScissors);
+                        return "lose";
+                    } else if (computer === "paper"){
+                        console.log(win+scissorsPaper)
+                        return "win";
+                    }
+                } else if (player === "paper"){
+                    if (computer === "scissors"){
+                        console.log(lose+scissorsPaper)
+                        return "lose";
+                    } else if (computer === "rock"){
+                        console.log(win+PaperRock)
+                        return "win";
+                    }
+                }
+            };
+            
+            //holds the overall scores
+            let playerScore = 0;
+            let computerScore = 0;
+
+            //plays a single round and updates scoreboard
+            function game(e) {
+                const result = singleRound (e);
+                    if (result === "win"){
+                        playerScore+=1;
+                    } else if (result === "lose"){
+                        computerScore+=1;
+                    }
+                document.querySelector("#playerScore").textContent = playerScore;
+                console.log(playerScore);
+                document.querySelector("#computerScore").textContent = computerScore;
+                console.log(computerScore);
+            };
+
+
+            const playerChoice = document.querySelectorAll(".choice");
+            playerChoice.forEach(choice => choice.addEventListener("click", game));
+            
+        </script>
+    </body>
+</html>
